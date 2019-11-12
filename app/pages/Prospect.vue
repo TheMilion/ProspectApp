@@ -33,7 +33,7 @@
 
 <style scoped>
     ActionBar {
-        background-color: #53ba82;
+        background-color: #BC1254;
         color: #ffffff;
     }
 
