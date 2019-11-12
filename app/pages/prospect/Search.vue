@@ -1,48 +1,82 @@
 <template>
     <Page>
-        <ActionBar title="Details">
-          <NavigationButton icon="res://ic_menu" tap="showSideDrawer" />
+        <ActionBar title="Ricerca" flat="true">
+          <NavigationButton text="Indietro" android.systemIcon="ic_menu_back" @tap="indietro"/>
         </ActionBar>
-<StackLayout backgroundColor="#3c495e">
-    <Label class="message" :text="msg" col="0" row="0"/>
-    <Label class="message" :text="ReturnedStore" col="0" row="0"/>
-    <Button text="Logout" @tap="logOut" />
-    <Button class="btn btn-primary" col="1" row="1" 
-        text="FakeLogout" @tap="fakeLogout"></Button>
-  </StackLayout>
+        <StackLayout style="margin-top:50px">
+          <Button text="Seleziona la tipologia Cliente" @tap="onSelected"/>
+          <StackLayout v-show="tipoPersona">
+            <Label>Tipo Persona: {{ tipoPersona }}</Label>
+            <TextField hint="Codice Fiscale" v-model="codiceFiscale" />
+            <Label v-if="errore.codiceFiscale">
+              <FormattedString>
+                <Span text="Errore sul campo compilato" style="font-size:14px; color: red" />
+              </FormattedString>
+            </Label>
+            <StackLayout v-show="tipoPersona == 'Persona Giuridica'">
+              <TextField keyboardType="number" hint="Partita Iva" v-model="partitaIva"/>
+              <Label v-if="errore.partitaIva">
+                <FormattedString>
+                  <Span text="Errore sul campo compilato" style="font-size:14px; color: red" />
+                </FormattedString>
+              </Label>
+            </StackLayout>
+            <Button text="Avanti" @tap="checkRicerca" />
+          </StackLayout>
+        </StackLayout>
     </Page>
 </template>
 
-<script >
+<script>
   export default {
-    data() {
-      return {
-        msg: 'Hello Details!',
-        ReturnedStore: ''
-      }
-    },
     mounted(){
-      this.$store.dispatch('Status/checkStatus')
-          if(this.$store.getters['Status/getStatus'] == ''){
-            alert('Non Hai i permessi per visualizzare questa pagina')
-            .then(() => {this.$navigateTo(this.$router.Login)})
-            }
-          else{
-            this.ReturnedStore = this.$store.getters['Status/getStatus']
-          }
+      let get = this.$store.getters['Prospect/getSearch']
+      if(get.tipoPersona == '') return
+      else {
+        this.tipoPersona = get.tipoPersona
+        if(!get.campoSearch.search(/[A-Z]/)) this.codiceFiscale = get.campoSearch
+        else this.partitaIva = get.campoSearch
+      } 
     },
-    methods: {
-      checkStatus(){
-       
-      },
-      fakeLogout(){
-        this.$navigateTo(this.$router.Login);  
-      },
-      logOut(){
-        this.$store.dispatch('Status/setStatus', '')
-        this.$navigateTo(this.$router.Login);
+    data(){
+      return {
+        tipoPersona: '',
+        codiceFiscale: '',
+        partitaIva: '',
+        errore: {
+          codiceFiscale: false,
+          partitaIva: false
+        }
       }
     },
+    methods:{
+      indietro(){
+        this.$navigateTo(this.$router.Prospect)
+      },
+      onSelected(){
+        action('Seleziona il tipo di persona', '', ['Persona Fisica', 'Persona Giuridica'])
+        .then(res => {
+          this.tipoPersona = res
+        })
+      },
+      checkRicerca(){
+        this.codiceFiscale = this.codiceFiscale.toUpperCase()
+        
+        if(this.tipoPersona == 'Persona Giuridica'){
+          //Controllo partita iva
+          if(!!!this.partitaIva.search(/^[0,1][0-9]{10}$/)) return this.nextStep(this.partitaIva)
+          else this.errore.partitaIva = true
+        }
+        
+        //Controllo codice fiscale
+        if(!!!this.codiceFiscale.search(/^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/i)) return this.nextStep(this.codiceFiscale)
+        else this.errore.codiceFiscale = true
+      },
+      nextStep(payload){
+        this.$store.dispatch('Prospect/setSearch', {'campoSearch': payload, 'tipoPersona': this.tipoPersona})
+        this.$navigateTo(this.$router.Anagrafica)
+      }
+    }
   }
 </script>
 
@@ -51,11 +85,8 @@
         background-color: #53ba82;
         color: #ffffff;
     }
-
-    .message {
-        vertical-align: center;
-        text-align: center;
-        font-size: 20;
-        color: #333333;
+    Label{
+      font-size: 24px;
+      text-align: center;
     }
 </style>

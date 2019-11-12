@@ -1,6 +1,6 @@
 import Vue from 'nativescript-vue'
 import routes from '~/router'
-import store from "./store/index.js";
+import store from "~/store/index.js";
 
 Vue.config.silent = (TNS_ENV === 'production')
 Vue.prototype.$router = routes
