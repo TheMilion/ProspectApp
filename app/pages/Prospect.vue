@@ -1,44 +1,41 @@
 <template>
-    <Page>
-        <ActionBar title="Details">
-          <NavigationButton icon="res://ic_menu" tap="showSideDrawer" />
-        </ActionBar>
-<StackLayout backgroundColor="#3c495e">
-    <Label class="message" text="Benvenuto in Prospect" col="0" row="0"/>
-    <Label class="message" :text="ReturnedStore" col="0" row="0"/>
-    <Button text="Logout" @tap="logOut" />
-  </StackLayout>
-    </Page>
+  <Page>
+    <ActionBar title="Prospect">
+      <ActionItem @tap="logOut" style="color:white" text="Logout" ></ActionItem> 
+    </ActionBar>
+        <StackLayout orientation="vertical" width="100%" height="100%" backgroundColor="lightgray">
+          <Label height="29%"/>
+        <Button class="my-button"  width="80%" height="70" text="Inserisci Nuova Prospect" @tap="goto"></Button>
+        <Button class="my-button" width="80%" height="70" text="Ricerca Prospect"></Button>
+        </StackLayout>
+  </Page>
 </template>
 
 <script >
   export default {
     data() {
       return {
-        msg: 'Hello Details!',
-        ReturnedStore: ''
       }
     },
-    mounted(){
-      this.$store.dispatch('Status/checkStatus')
-          if(this.$store.getters['Status/getStatus'] == ''){
-            alert('Non Hai i permessi per visualizzare questa pagina')
-            .then(() => {this.$navigateTo(this.$router.Login)})
+    computed: {
+        MyToken() {
+            return this.$store.getters['Status/getStatus']
             }
-          else{
-            this.ReturnedStore = this.$store.getters['Status/getStatus']
-          }
-    },
+          },
     methods: {
-      checkStatus(){
-       
-      },
-      fakeLogout(){
-        this.$navigateTo(this.$router.Login);  
-      },
+        goto(){
+        this.$navigateTo(this.$router.Search, {
+          animated: true,
+            transition: {
+              name: 'fade',
+              duration: 500,
+              curve: 'linear'
+            }
+            })
+        },
       logOut(){
-        this.$store.dispatch('Status/setStatus', '')
-        this.$navigateTo(this.$router.Login);
+        this.$store.dispatch('Status/setStatus', {})
+        this.$navigateTo(this.$router.Login , { clearHistory: true });
       }
     },
   }
@@ -46,14 +43,23 @@
 
 <style scoped>
     ActionBar {
-        background-color: #53ba82;
+        background-color: #BC1254;
         color: #ffffff;
     }
-
-    .message {
-        vertical-align: center;
-        text-align: center;
-        font-size: 20;
-        color: #333333;
+  .my-button {
+      background-color: #BC1254;
+      color: white;
+      width:85%;
+      font-weight: bold;
+      padding-top: 14;
+      padding-bottom: 14;
+      text-transform: uppercase;
+      letter-spacing: 0.1;
+      margin-bottom: 20;
+      margin-top: 10;
     }
+    .page {
+      align-items: center;
+      flex-direction: column;
+      }
 </style>

@@ -1,46 +1,54 @@
 <template>
-    <Page>
-        <ActionBar title="Details">
-          <NavigationButton icon="res://ic_menu" tap="showSideDrawer" />
-        </ActionBar>
-<StackLayout backgroundColor="#3c495e">
-    <Label class="message" :text="msg" col="0" row="0"/>
-    <Label class="message" :text="ReturnedStore" col="0" row="0"/>
-    <Button text="Logout" @tap="logOut" />
-    <Button class="btn btn-primary" col="1" row="1" 
-        text="FakeLogout" @tap="fakeLogout"></Button>
-  </StackLayout>
-    </Page>
+  <Page>
+    <ActionBar title="Search">
+      <NavigationButton text="Indietro" android.systemIcon="ic_menu_back" @tap="indietro"/>
+      <ActionItem @tap="logOut" style="color:white" text="Logout" ></ActionItem> 
+    </ActionBar>
+
+<GridLayout rows="*,70" backgroundColor="lightgray">
+  <ScrollView row="0">
+      <GridLayout rows="*,70" backgroundColor="lightgray">
+      </GridLayout>
+  </ScrollView>
+  <StackLayout row="2" orientation="horizontal">
+        <Button class="my-button" width="100%" height="70" @tap="goTo" text="Avanti"></Button>
+    </StackLayout>
+</GridLayout>
+  </Page>
 </template>
 
 <script >
   export default {
     data() {
       return {
-        msg: 'Hello Details!',
-        ReturnedStore: ''
       }
     },
-    mounted(){
-      this.$store.dispatch('Status/checkStatus')
-          if(this.$store.getters['Status/getStatus'] == ''){
-            alert('Non Hai i permessi per visualizzare questa pagina')
-            .then(() => {this.$navigateTo(this.$router.Login)})
+    mounted(){},
+    methods: {  
+      goTo(){
+        this.$navigateTo(this.$router.Anagrafica , {
+          animated: true,
+            transition: {
+              name: 'fade',
+              duration: 500,
+              curve: 'linear'
             }
-          else{
-            this.ReturnedStore = this.$store.getters['Status/getStatus']
-          }
-    },
-    methods: {
-      checkStatus(){
-       
-      },
-      fakeLogout(){
-        this.$navigateTo(this.$router.Login);  
+            });
+      },    
+      indietro(){
+        this.$navigateTo(this.$router.Prospect, {
+          clearHistory: true,
+          animated: true,
+          transition: {
+            name: 'slideRight',
+            duration: 500,
+            curve: 'linear'
+            }
+            });
       },
       logOut(){
-        this.$store.dispatch('Status/setStatus', '')
-        this.$navigateTo(this.$router.Login);
+        this.$store.dispatch('Status/setStatus', {})
+        this.$navigateTo(this.$router.Login , { clearHistory: true });
       }
     },
   }
@@ -48,14 +56,23 @@
 
 <style scoped>
     ActionBar {
-        background-color: #53ba82;
+        background-color: #BC1254;
         color: #ffffff;
     }
 
-    .message {
-        vertical-align: center;
-        text-align: center;
-        font-size: 20;
-        color: #333333;
+  .my-button {
+      background-color: #BC1254;
+      color: white;
+      width:85%;
+      font-weight: bold;
+      padding-top: 14;
+      padding-bottom: 14;
+      text-transform: uppercase;
+      letter-spacing: 0.1;
+      margin-bottom: 20;
+      margin-top: 10;
     }
+.label {
+  text-align:center
+}
 </style>

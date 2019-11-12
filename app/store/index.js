@@ -1,9 +1,6 @@
 import Vue from 'nativescript-vue';
 import Vuex from 'vuex';
-
 import Status from './modules/Status'
-
-
 
 Vue.use(Vuex);
 

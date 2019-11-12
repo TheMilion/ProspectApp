@@ -1,6 +1,6 @@
 const appSettings = require("tns-core-modules/application-settings");
 const state = () => ({
-  status: '',
+  status: {},
 })
 const getters = {
   getStatus(state){
@@ -9,21 +9,22 @@ const getters = {
 }
 
 const mutations = {
-  setStatus(state,string){
-         state.status = string
-         appSettings.setString("Status", string)
+  setStatus(state,object){
+         state.status = object
+         appSettings.setString("Status", JSON.stringify(object))
+         console.log("provaaaaaaaaaaaaa", appSettings.getString('Status'))
          
   },
 
-  checkStatus(state,string){
-    if(state.status == '') 
-    state.status = appSettings.getString('Status')
+  checkStatus(state){
+    if(Object.keys(state.status).length === 0) 
+    state.status = JSON.parse(appSettings.getString('Status'))
     }
   }
 
 const actions = {
-    setStatus(e,string){
-      e.commit('setStatus',string)
+    setStatus(e,object){
+      e.commit('setStatus',object)
     },
 
     checkStatus(e){
