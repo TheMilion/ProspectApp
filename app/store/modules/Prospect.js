@@ -6,7 +6,7 @@ const state = () => ({
 
 const getters = {
     getSearch(state){
-        return { 'tipoPersona': state.tipoPersona, 'campoSearch': state.campoSearch }
+        return state.search
     },
     getAnagrafica(state){
         return state.anagrafica
@@ -14,11 +14,14 @@ const getters = {
 }
   
 const mutations = {
-    setSearch(state, payload){ state.search = payload },
+    setSearch(state, payload){ 
+        state.search = payload 
+    },
     setAnagrafica(state, payload){
         state.anagrafica = {...payload}
     },
     clear(state){
+        console.log("sono entrato nella mutation")
         state.search = {}
     }
 }

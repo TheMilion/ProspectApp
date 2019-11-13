@@ -12,7 +12,7 @@
         <!-- Dati Anagrafici Persona Fisica -->
 
         <FlexboxLayout v-if="selectedPerson == 'Persona Fisica'"  flexDirection="column" width="100%" height="100%">
-        <Label v-if="contatoreDatiAnagrafici > 0" style="color: #BC1254" :text="'Errori: ('+contatoreDatiAnagrafici+'/6)'"></Label>
+        <Label v-if="contatoreDatiAnagrafici > 0" style="color: #BC1254" :text="'Errori: ('+contatoreDatiAnagrafici+'/5)'"></Label>
         <Button class="my-buttonAnagrafica" text="Dati Anagrafici" width="100%" height="70" @tap="ToggleDatiAnagrafici()" />
           <FlexboxLayout v-show="AnagraficaCheck" flexDirection="column" width="100%"  backgroundColor="lightgray">
               <!-- Nome -->
@@ -100,23 +100,22 @@
               </StackLayout>
             </StackLayout>
 
-            <!--Data Di Nascita 
+            <!--Data Di Nascita -->
             <StackLayout row="5" width:="80%">
               <Label class="textLabel">
                 <FormattedString>
                   <Span text="Data Di Nascita* :" style="font-size:14px; color:black"/>
                 </FormattedString>
               </Label>
-              <DatePicker v-model="formDatiAnagraficiPersonaFisica.datadinascita" />
-              <label :text="errorformDatiAnagraficiPersonaFisica.datadinascita" />
-              <StackLayout class="hr-light">
+              <DatePickerField class="select" hint="DD MM YYYY" minDate="1900/01/01" @dateChange="(args)=>{formDatiAnagraficiPersonaFisica.datadinascita = args.value}" :date="(formDatiAnagraficiPersonaFisica.datadinascita=='') ? null : formDatiAnagraficiPersonaFisica.datadinascita"/>
+               <StackLayout class="hr-light">
                 <Label  class="messageErrorUser">
                   <FormattedString>
                     <Span :text="errorformDatiAnagraficiPersonaFisica.datadinascita" style="font-size:14px; color: #BC1254" />
                   </FormattedString>
                 </Label>
               </StackLayout>
-            </StackLayout>-->
+            </StackLayout>
           </FlexboxLayout>
           </FlexboxLayout>
 
@@ -287,10 +286,10 @@
               <StackLayout row="0" width:="80%">
               <Label class="textLabel">
                 <FormattedString>
-                  <Span text="Rilasciato Da* :" style="font-size:14px; color:black"/>
+                  <Span text="Data di Rilascio* :" style="font-size:14px; color:black"/>
                 </FormattedString>
               </Label>
-              <TextField v-model="formRappresentantePersonaGiuridica.datarilascio"  hint="Inserisci qui la Data di Rilascio:"/>
+              <DatePickerField class="select" hint="DD MM YYYY" minDate="1990/01/01" @dateChange="(args)=>{formRappresentantePersonaGiuridica.datarilascio = args.value}" :date="(formRappresentantePersonaGiuridica.datarilascio=='') ? null : formRappresentantePersonaGiuridica.datarilascio"/>
               <StackLayout class="hr-light">
                 <Label  class="messageErrorUser">
                   <FormattedString>
@@ -304,10 +303,11 @@
               <StackLayout row="0" width:="80%">
               <Label class="textLabel">
                 <FormattedString>
-                  <Span text="Rilasciato Da* :" style="font-size:14px; color:black"/>
+                  <Span text="Data di scadenza* :" style="font-size:14px; color:black"/>
                 </FormattedString>
               </Label>
-              <TextField v-model="formRappresentantePersonaGiuridica.datascadenza"  hint="Inserisci qui la Data di Scadenza:"/>
+               <DatePickerField class="select" hint="DD MM YYYY" minDate="1990/01/01" @dateChange="(args)=>{formRappresentantePersonaGiuridica.datascadenza = args.value}" :date="(formRappresentantePersonaGiuridica.datascadenza=='') ? null : formRappresentantePersonaGiuridica.datascadenza"/>
+             
               <StackLayout class="hr-light">
                 <Label  class="messageErrorUser">
                   <FormattedString>
@@ -584,11 +584,11 @@
           <!-- Fine Residenza -->
 
           <!-- Domiciliazione Documenti -->
-          <Label v-show="contatoreDomiciliazione > 0" style="color: #BC1254"  :text="'Errori: ('+contatoreDomiciliazione+'/6)'"></Label>
+          <Label v-show="contatoreDomiciliazione > 0" style="color: #BC1254"  :text="'Errori: ('+contatoreDomiciliazione+'/4)'"></Label>
           <WrapLayout orientation="horizontal" width="100%" height="70" backgroundColor="lightgray">
-            <Button class="my-buttonAnagrafica" :isEnabled ="btnDomiciliazioneEnabled" width="80%" height="70" @tap="ToggleDomiciliazioneDoc()" text="Domiciliazione Documenti"></Button>
-            <Button backgroundColor="#BC1254" width="20%" height="70" v-if="btnDomiciliazioneEnabled" @tap="DisableDomiciliazione()" text="OFF"></Button>
-            <Button backgroundColor="green" width="20%" height="70" v-else @tap="ActiveDomiciliazione()" text="ON"></Button>
+            <Button class="my-buttonAnagrafica" :isEnabled ="btnDomiciliazioneEnabled" width="92%" height="70" @tap="ToggleDomiciliazioneDoc()" text="Domiciliazione Documenti"></Button>
+            <Button backgroundColor="#BC1254" width="8%" height="70" v-if="btnDomiciliazioneEnabled" @tap="DisableDomiciliazione()" ></Button>
+            <Button backgroundColor="green" width="8%" height="70" v-else @tap="ActiveDomiciliazione()" ></Button>
           </WrapLayout>
            <FlexboxLayout v-show="DomiciliazioneDocCheck" flexDirection="column" width="100%" height="100%" backgroundColor="lightgray">
             
@@ -596,7 +596,7 @@
               <StackLayout row="0" width:="80%">
               <Label class="textLabel">
                 <FormattedString>
-                  <Span text="Toponimo :" style="font-size:14px; color:black"/>
+                  <Span text="Toponimo* :" style="font-size:14px; color:black"/>
                 </FormattedString>
               </Label>
               <TextField v-model="formDomiciliazioneDoc.toponimo"  hint="Inserisci qui il Toponimo :"/>
@@ -613,7 +613,7 @@
               <StackLayout row="1" width:="80%">
               <Label class="textLabel">
                 <FormattedString>
-                  <Span text="Indirizzo :" style="font-size:14px; color:black"/>
+                  <Span text="Indirizzo* :" style="font-size:14px; color:black"/>
                 </FormattedString>
               </Label>
               <TextField v-model="formDomiciliazioneDoc.indirizzo"  hint="Inserisci qui il tuo indirizzo :"/>
@@ -630,7 +630,7 @@
               <StackLayout row="2" width:="80%">
               <Label class="textLabel">
                 <FormattedString>
-                  <Span text="Civico :" style="font-size:14px; color:black"/>
+                  <Span text="Civico* :" style="font-size:14px; color:black"/>
                 </FormattedString>
               </Label>
               <TextField keyboardType="number" v-model="formDomiciliazioneDoc.civico"  hint="Inserisci qui il tuo Civico :"/>
@@ -664,7 +664,7 @@
               <StackLayout row="5" width:="80%">
               <Label class="textLabel">
                 <FormattedString>
-                  <Span text="Localita :" style="font-size:14px; color:black"/>
+                  <Span text="Localita* :" style="font-size:14px; color:black"/>
                 </FormattedString>
               </Label>
               <TextField v-model="formDomiciliazioneDoc.localita"  hint="Inserisci qui la Localita :"/>
@@ -681,7 +681,7 @@
               <StackLayout row="6" width:="80%">
               <Label class="textLabel">
                 <FormattedString>
-                  <Span text="Cap :" style="font-size:14px; color:black"/>
+                  <Span text="Cap* :" style="font-size:14px; color:black"/>
                 </FormattedString>
               </Label>
               <TextField keyboardType="number" v-model="formDomiciliazioneDoc.cap"  hint="Inserisci qui il Cap :"/>
@@ -701,9 +701,9 @@
         <Label v-show="contatoreFatturaEmail > 0" style="color: #BC1254"  :text="'Errori: ('+contatoreFatturaEmail+'/1)'"></Label>
          
          <WrapLayout orientation="horizontal" width="100%" height="70" backgroundColor="lightgray">
-         <Button class="my-buttonAnagrafica" :isEnabled ="btnFatturaEmail" width="80%" height="70" @tap="ToggleFatturaEmail()" text="Fattura Per Email"></Button>
-         <Button backgroundColor="#BC1254" width="20%" height="70" v-if="btnFatturaEmail" @tap="DisableFattura()" text="OFF"></Button>
-         <Button backgroundColor="green" width="20%" height="70" v-else @tap="ActiveFattura()" text="ON">
+         <Button class="my-buttonAnagrafica" :isEnabled ="btnFatturaEmail" width="92%" height="70" @tap="ToggleFatturaEmail()" text="Fattura Per Email"></Button>
+         <Button backgroundColor="#BC1254" width="8%" height="70" v-if="btnFatturaEmail" @tap="DisableFattura()" ></Button>
+         <Button backgroundColor="green" width="8%" height="70" v-else @tap="ActiveFattura()" >
          </Button>
          </WrapLayout>
          
@@ -713,7 +713,7 @@
               <StackLayout row="0" width:="80%">
               <Label class="textLabel">
                 <FormattedString>
-                  <Span text="Email :" style="font-size:14px; color:black"/>
+                  <Span text="Email* :" style="font-size:14px; color:black"/>
                 </FormattedString>
               </Label>
               <TextField v-model="formFatturaEmail.email"  hint="Inserisci qui la Email :"/>
@@ -747,7 +747,7 @@
             nome: '',
             cognome: '',
             codicefiscale: '',
-            datadinascita: '',
+            datadinascita: null,
             nazione: '',
             luogo: ''
           },
@@ -778,8 +778,8 @@
             tipologiadocumento: '',
             numerodocumento: '',
             rilasciatoda: '',
-            datarilascio: '',
-            datascadenza: ''
+            datarilascio: null,
+            datascadenza: null
           },
           errorformRappresentantePersonaGiuridica: {
             nome: '',
@@ -975,27 +975,33 @@
 
 
         if(this.selectedPerson == 'Persona Fisica'){
+          console.log("datadinascita" , this.formDatiAnagraficiPersonaFisica.datadinascita)
+          if(this.formDatiAnagraficiPersonaFisica.datadinascita == null) this.formDatiAnagraficiPersonaFisica.datadinascita = ''
+          console.log("datadinascitaAfter" , this.formDatiAnagraficiPersonaFisica.datadinascita)
           for(let i in this.formDatiAnagraficiPersonaFisica){
-            if(i == 'datadinascita') continue
             if(this.formDatiAnagraficiPersonaFisica[i] == ''){
               this.counterError ++
-              this.errorformDatiAnagraficiPersonaFisica[i] = 'Errore sul campo '+ i
+              this.errorformDatiAnagraficiPersonaFisica[i] = 'Il campo è obbligatorio'
               this.contatoreDatiAnagrafici ++
             }else{
               this.errorformDatiAnagraficiPersonaFisica[i] = ''
             }
           }
         }else{
+            
           if(this.formDatiAnagraficiPersonaGiuridica.ragionesociale == ''){
             this.counterError ++
             this.errorformDatiAnagraficiPersonaGiuridica.ragionesociale = 'Errore sul campo ragione Sociale'
             this.contatoreDatiAnagraficiGiuridica ++
           }else this.errorformDatiAnagraficiPersonaGiuridica.ragionesociale = ''
-
+        //console.log("datarilascio: ",this.formRappresentantePersonaGiuridica.datarilascio)
+        //console.log("dattascadenza: ", this.formRappresentantePersonaGiuridica.datascadenza)
+        if(this.formRappresentantePersonaGiuridica.datarilascio == null) this.formRappresentantePersonaGiuridica.datarilascio = ''
+        if(this.formRappresentantePersonaGiuridica.datascadenza == null) this.formRappresentantePersonaGiuridica.datascadenza = ''
         for(let i in this.formRappresentantePersonaGiuridica){
            if(this.formRappresentantePersonaGiuridica[i] == ''){
               this.counterError ++
-              this.errorformRappresentantePersonaGiuridica[i] = 'Errore sul campo '+ i
+              this.errorformRappresentantePersonaGiuridica[i] = 'Il campo è obbligatorio'
               this.contatoreRappresentate ++
             }else this.errorformRappresentantePersonaGiuridica[i] = ''
         }
@@ -1004,7 +1010,7 @@
           if(i == 'telefonoalt' || i == 'cellulare' || i == 'cellularealt' || i == 'fax' || i == 'pec') continue 
           if(this.formRecapiti[i] == ''){
             this.counterError ++
-            this.errorformRecapiti[i] = 'Errore sul campo '+ i
+            this.errorformRecapiti[i] = 'Il campo è obbligatorio'
             this.contatoreRecapiti ++
           }else{
             this.errorformRecapiti[i] = ''
@@ -1014,7 +1020,7 @@
          if(i == 'presso' || i == 'localita') continue 
           if(this.formResidenza[i] == ''){
             this.counterError ++
-            this.errorformResidenza[i] = 'Errore sul campo '+ i
+            this.errorformResidenza[i] = 'Il campo è obbligatorio'
             this.contatoreResidenza ++
           }else{
             this.errorformResidenza[i] = ''
@@ -1022,9 +1028,10 @@
       }
       if(this.btnDomiciliazioneEnabled){
         for(let i in this.formDomiciliazioneDoc){
+          if(i == 'presso' || i == 'localita') continue 
             if(this.formDomiciliazioneDoc[i] == ''){
               this.counterError ++
-              this.errorformDomiciliazioneDoc[i] = 'Errore sul campo '+ i
+              this.errorformDomiciliazioneDoc[i] = 'Il campo è obbligatorio'
               this.contatoreDomiciliazione ++
             }else{
               this.errorformDomiciliazioneDoc[i] = ''
@@ -1035,7 +1042,7 @@
         for(let i in this.formFatturaEmail){
             if(this.formFatturaEmail[i] == ''){
               this.counterError ++
-              this.errorformFatturaEmail[i] = 'Errore sul campo '+ i
+              this.errorformFatturaEmail[i] = 'Il campo è obbligatorio'
               this.contatoreFatturaEmail ++
             }else{
               this.errorformFatturaEmail[i] = ''
@@ -1158,4 +1165,13 @@
     margin-left:10;
     margin-top:10;
   }
+  .select{
+   background-color:white;
+   color: gray;
+   border-radius:10;
+   padding:10;
+   margin-top: 5;
+   margin-right:10;
+   margin-left:10;
+ }
 </style>

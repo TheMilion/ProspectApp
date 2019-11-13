@@ -12,6 +12,8 @@ Vue.prototype.$httpModule = httpModule
 Vue.prototype.$application = application
 Vue.registerElement("Gradient", () => require("nativescript-gradient").Gradient);
 
+import DateTimePicker from 'nativescript-datetimepicker/vue'
+Vue.use(DateTimePicker)
 
 new Vue({
   store,

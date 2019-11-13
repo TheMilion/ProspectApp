@@ -23,8 +23,10 @@
             }
           },
           mounted(){
-            this.$store.dispatch('Prospect/clear'),
+            console.log("ci sono entrato")
             this.$store.dispatch('Prospect/setAnagrafica', {})
+            this.$store.dispatch('Prospect/clear', {})
+            console.log(this.$store.getters['Prospect/getSearch'])
           },
     methods: {
         goto(){

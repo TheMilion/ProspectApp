@@ -40,14 +40,14 @@
 <script>
   export default {
     mounted(){
-      if(Object.keys(this.$store.getters['Prospect/getSearch']).length != 0) this.search = this.$store.getters['Prospect/getSearch'] 
+      if(Object.keys(this.$store.getters['Prospect/getSearch']).length != 0) this.search = {...this.$store.getters['Prospect/getSearch'] }
     },
     data(){
       return {
         search:{
-          tipoPersona: ' ',
-          codiceFiscale: ' ',
-          partitaIva: ' ',
+          tipoPersona: '',
+          codiceFiscale: '',
+          partitaIva: '',
         },
         errore: {
           codiceFiscale: false,
@@ -56,9 +56,9 @@
       }
     },
     methods:{
-      indietro(){
-        this.$store.dispatch('Prospect/clear')
-        this.$navigateTo(this.$router.Prospect, {
+      async indietro(){
+        await this.$store.dispatch('Prospect/clear')
+        await this.$navigateTo(this.$router.Prospect, {
           clearHistory: true,
           animated: true,
           transition: {
@@ -68,9 +68,10 @@
           }
         });
       },
-      logOut(){
-        this.$store.dispatch('Status/setStatus', {})
-        this.$navigateTo(this.$router.Login , { clearHistory: true });
+      async logOut(){
+        await this.$store.dispatch('Status/setStatus', {})
+        await this.$store.dispatch('Prospect/clear')
+        await this.$navigateTo(this.$router.Login , { clearHistory: true });
       },
       onSelected(){
         action('', '', ['Persona Fisica', 'Persona Giuridica'])
@@ -95,7 +96,7 @@
         }
       },
       nextStep(){
-        this.$store.dispatch('Prospect/setSearch', {tipoPersona: this.search.tipopersona , partitaIva: this.search.partitaIva, codiceFiscale: this.search.codiceFiscale})
+        this.$store.dispatch('Prospect/setSearch', this.search)
         this.$navigateTo(this.$router.Anagrafica , {
           animated: true,
           transition: {
