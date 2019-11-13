@@ -18,6 +18,7 @@ Vue.use(DateTimePicker)
 new Vue({
   store,
   render (h) {
+    return h('frame', [h(routes.Prospect)])
         this.$store.dispatch('Status/checkStatus')
         if(Object.keys(this.$store.getters['Status/getStatus']).length === 0) {
           return h('frame', [h(routes.Login)])
