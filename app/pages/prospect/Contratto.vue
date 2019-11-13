@@ -34,12 +34,12 @@
             <Label v-show="selected.data" class="select" :text="(selected.numeroPlico!='')?selected.numeroPlico:'Seleziona...'" @tap="controllo('numeroPlico')"/>
             
             <!-- Listino Gas -->
-            <Label v-show="selected.numeroPlico && !selected.listinoEnergia" text="Listino Gas" style="margin-top: 20px;"/>
-            <Label v-show="selected.numeroPlico && !selected.listinoEnergia" class="select" :text="(selected.listinoGas!='')? selected.listinoGas : 'Seleziona listino'" @tap="controllo('listinoGas')"/>
+            <Label v-show="selected.numeroPlico" text="Listino Gas" style="margin-top: 20px;"/>
+            <Label v-show="selected.numeroPlico" class="select" :text="(selected.listinoGas!='')? selected.listinoGas : 'Seleziona listino'" @tap="controllo('listinoGas')"/>
             
             <!-- Listino Energia -->
-            <Label v-show="selected.numeroPlico && !selected.listinoGas" text="Listino Energia" style="margin-top: 20px;"/>
-            <Label v-show="selected.numeroPlico && !selected.listinoGas" class="select" :text="(selected.listinoEnergia!='')? selected.listinoEnergia : 'Seleziona listino'" @tap="controllo('listinoEnergia')"/>
+            <Label v-show="selected.numeroPlico" text="Listino Energia" style="margin-top: 20px;"/>
+            <Label v-show="selected.numeroPlico" class="select" :text="(selected.listinoEnergia!='')? selected.listinoEnergia : 'Seleziona listino'" @tap="controllo('listinoEnergia')"/>
             
             <!-- Modalità di pagamento -->
             <Label v-show="selected.listinoGas || selected.listinoEnergia" text="Metodo di pagamento" style="margin-top: 20px;"/>
@@ -126,12 +126,8 @@
       },
       logOut(){
         this.$store.dispatch('Status/setStatus', {})
-        .then(()=>{
-          this.$store.dispatch('Prospect/clearAll')
-          .then(()=>{
-            this.$navigateTo(this.$router.Login , { clearHistory: true });
-          })
-        })
+        this.$store.dispatch('Prospect/clearAll')
+        this.$navigateTo(this.$router.Login , { clearHistory: true });
       },
       async controllo(option){
         await action('', '', this[option])

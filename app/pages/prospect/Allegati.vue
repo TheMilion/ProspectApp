@@ -33,6 +33,8 @@
             });
       },
       logOut(){
+        this.$store.dispatch('Status/setStatus', {})
+        this.$store.dispatch('Prospect/clearAll')
         this.$navigateTo(this.$router.Login , { clearHistory: true });
       }
     },

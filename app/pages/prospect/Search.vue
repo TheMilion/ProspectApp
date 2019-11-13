@@ -37,11 +37,10 @@
     
     </Page>
 </template>
-
 <script>
   export default {
     mounted(){
-      if(Object.keys(this.$store.getters['Prospect/getSearch']).length != 0) this.search = { ...this.$store.getters['Prospect/getSearch'] } 
+      if(Object.keys(this.$store.getters['Prospect/getSearch']).length != 0) this.search = {...this.$store.getters['Prospect/getSearch'] }
     },
     data(){
       return {
@@ -57,9 +56,9 @@
       }
     },
     methods:{
-      indietro(){
-        this.$store.dispatch('Prospect/clear')
-        this.$navigateTo(this.$router.Prospect, {
+      async indietro(){
+        await this.$store.dispatch('Prospect/clear')
+        await this.$navigateTo(this.$router.Prospect, {
           clearHistory: true,
           animated: true,
           transition: {
@@ -88,7 +87,7 @@
           //Controllo partita iva
           if(!!!this.search.partitaIva.search(/^[0,1][0-9]{15}$/) || !!!this.search.partitaIva.search(/^[0,1][0-9]{10}$/)) return this.nextStep()
           else this.errore.partitaIva = true
-
+          
         } else {
           
           //Controllo codice fiscale Persona Fisica
@@ -111,7 +110,6 @@
     }
   }
 </script>
-
 <style scoped>
   ActionBar {
     background-color: #BC1254;
