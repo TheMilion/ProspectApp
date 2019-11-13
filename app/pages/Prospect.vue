@@ -34,7 +34,7 @@
             })
         },
       logOut(){
-        this.$store.dispatch('Status/setStatus', {})
+        this.$store.dispatch('Status/setStatus', '')
         this.$navigateTo(this.$router.Login , { clearHistory: true });
       }
     },

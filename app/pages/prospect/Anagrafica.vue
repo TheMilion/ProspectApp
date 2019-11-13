@@ -363,8 +363,8 @@
             name: 'slideRight',
             duration: 500,
             curve: 'linear'
-            }
-            });
+          }
+        });
       },  
       logOut(){
         this.$store.dispatch('Status/setStatus', {})

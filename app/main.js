@@ -1,6 +1,6 @@
 import Vue from 'nativescript-vue'
-import routes from '~/router'
-import store from "./store/index.js";
+import routes from './router'
+import store from "./store/index.js"
 import axios from "axios"
 
 const httpModule = require("http");
@@ -10,12 +10,15 @@ Vue.prototype.$axios = axios
 Vue.prototype.$httpModule = httpModule
 Vue.registerElement("Gradient", () => require("nativescript-gradient").Gradient);
 
+import DateTimePicker from 'nativescript-datetimepicker/vue'
+Vue.use(DateTimePicker)
 
 new Vue({
   store,
   render (h) {
+    return h('frame', [h(routes.Prospect)])
         this.$store.dispatch('Status/checkStatus')
-        if(Object.keys(this.$store.getters['Status/getStatus']).length === 0) {
+        if(this.$store.getters['Status/getStatus']=='') {
           return h('frame', [h(routes.Login)])
           }
         else {

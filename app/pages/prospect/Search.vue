@@ -1,5 +1,6 @@
 <template>
     <Page>
+      
       <ActionBar title="Ricerca" flat="true">
         <NavigationButton text="Indietro" android.systemIcon="ic_menu_back" @tap="indietro"/>
         <ActionItem @tap="logOut" style="color:white" text="Logout" ></ActionItem>
@@ -9,22 +10,23 @@
         <ScrollView row="0">
           <GridLayout rows="*,150" backgroundColor="lightgray">
             <Button row="0" class="buttonModal" width="100%" height="70" text="Seleziona il tipo di Persona" @tap="onSelected"/>
-            <StackLayout row="1" v-show="tipoPersona">
-              <Label style="margin-bottom: 20px">Tipo Persona: {{ tipoPersona }}</Label>
-              <TextField hint="Codice Fiscale" v-model="codiceFiscale" />
+            <StackLayout row="1" v-show="search.tipoPersona == 'Persona Fisica'">
+              <Label  style="margin-bottom: 20px">Tipo Persona: {{ search.tipoPersona }}</Label>
+              <TextField hint="Codice Fiscale" v-model="search.codiceFiscale"/>
               <Label v-if="errore.codiceFiscale">
                 <FormattedString>
                   <Span text="Errore sul campo compilato" style="font-size:14px; color: red" />
                 </FormattedString>
               </Label>
-              <StackLayout v-show="tipoPersona == 'Persona Giuridica'">
-                <TextField keyboardType="number" hint="Partita Iva" v-model="partitaIva"/>
-                <Label v-if="errore.partitaIva">
-                  <FormattedString>
-                    <Span text="Errore sul campo compilato" style="font-size:14px; color: red" />
-                  </FormattedString>
-                </Label>
-              </StackLayout>
+            </StackLayout>
+            <StackLayout row="2" v-show="search.tipoPersona == 'Persona Giuridica'">
+              <Label  style="margin-bottom: 20px">Tipo Persona: {{ search.tipoPersona }}</Label>
+              <TextField keyboardType="number" hint="Partita Iva" v-model="search.partitaIva"/>
+              <Label v-if="errore.partitaIva">
+                <FormattedString>
+                  <Span text="Errore sul campo compilato" style="font-size:14px; color: red" />
+                </FormattedString>
+              </Label>
             </StackLayout>
           </GridLayout>
         </ScrollView>
@@ -32,25 +34,22 @@
           <Button class="my-button" width="100%" height="70" @tap="checkRicerca" text="Avanti"/>
         </StackLayout>
       </GridLayout>
+    
     </Page>
 </template>
 
 <script>
   export default {
     mounted(){
-      let get = this.$store.getters['Prospect/getSearch']
-      if(get.tipoPersona == '') return
-      else {
-        this.tipoPersona = get.tipoPersona
-        if(!get.campoSearch.search(/[A-Z]/)) this.codiceFiscale = get.campoSearch
-        else this.partitaIva = get.campoSearch
-      } 
+      if(Object.keys(this.$store.getters['Prospect/getSearch']).length != 0) this.search = { ...this.$store.getters['Prospect/getSearch'] } 
     },
     data(){
       return {
-        tipoPersona: 'Persona Fisica',
-        codiceFiscale: 'MRNGPP97P26F839T',
-        partitaIva: '',
+        search:{
+          tipoPersona: '',
+          codiceFiscale: '',
+          partitaIva: '',
+        },
         errore: {
           codiceFiscale: false,
           partitaIva: false
@@ -72,29 +71,34 @@
       },
       logOut(){
         this.$store.dispatch('Status/setStatus', {})
+        this.$store.dispatch('Prospect/clearAll')
         this.$navigateTo(this.$router.Login , { clearHistory: true });
       },
       onSelected(){
         action('', '', ['Persona Fisica', 'Persona Giuridica'])
         .then(res => {
-          this.tipoPersona = res
+          this.search.tipoPersona = res
         })
       },
       checkRicerca(){
-        this.codiceFiscale = this.codiceFiscale.toUpperCase()
+        this.search.codiceFiscale = this.search.codiceFiscale.toUpperCase()
         
-        if(this.tipoPersona == 'Persona Giuridica'){
+        if(this.search.tipoPersona == 'Persona Giuridica'){
+          
           //Controllo partita iva
-          if(!!!this.partitaIva.search(/^[0,1][0-9]{10}$/)) return this.nextStep(this.partitaIva)
+          if(!!!this.search.partitaIva.search(/^[0,1][0-9]{15}$/) || !!!this.search.partitaIva.search(/^[0,1][0-9]{10}$/)) return this.nextStep()
           else this.errore.partitaIva = true
-        }
+
+        } else {
+          
+          //Controllo codice fiscale Persona Fisica
+          if(!!!this.search.codiceFiscale.search(/^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/i)) return this.nextStep()
+          else this.errore.codiceFiscale = true
         
-        //Controllo codice fiscale
-        if(!!!this.codiceFiscale.search(/^[A-Z]{6}\d{2}[A-Z]\d{2}[A-Z]\d{3}[A-Z]$/i)) return this.nextStep(this.codiceFiscale)
-        else this.errore.codiceFiscale = true
+        }
       },
-      nextStep(payload){
-        this.$store.dispatch('Prospect/setSearch', {'campoSearch': payload, 'tipoPersona': this.tipoPersona})
+      nextStep(){
+        this.$store.dispatch('Prospect/setSearch', this.search)
         this.$navigateTo(this.$router.Anagrafica , {
           animated: true,
           transition: {
@@ -140,5 +144,15 @@
   Label{
     font-size: 24px;
     text-align: center;
+    margin-right:10;
+    margin-left:10;
+  }
+  TextField{
+    background-color:white;
+    border-radius:10;
+    padding:10;
+    margin-top: 5;
+    margin-right:10;
+    margin-left:10;
   }
 </style>

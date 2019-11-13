@@ -18,12 +18,10 @@
 
 <script >
   export default {
-    data() {
-      return {
-      }
-    },
-    mounted(){},
     methods: {      
+      goTo(){
+        console.log('ok')
+      },
       indietro(){
         this.$navigateTo(this.$router.Contratto, {
           animated: true,
@@ -35,7 +33,6 @@
             });
       },
       logOut(){
-        this.$store.dispatch('Status/setStatus', {})
         this.$navigateTo(this.$router.Login , { clearHistory: true });
       }
     },

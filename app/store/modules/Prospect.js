@@ -1,31 +1,32 @@
-const state = () => ({
-    //search
-    tipoPersona: '',
-    campoSearch: '',
+import moment from 'moment'
 
-    //anagrafica
+const state = () => ({
+    search: {},
+    anagrafica: {},
+    contratto: {},
 })
 
 const getters = {
-    getSearch(state){
-        return { 'tipoPersona': state.tipoPersona, 'campoSearch': state.campoSearch }
-    }
+    getSearch(state) { return { ...state.search } },
+    getContratto(state) { return { ...state.contratto } } 
 }
   
 const mutations = {
-    setSearch(state, payload){
-        state.tipoPersona = payload.tipoPersona
-        state.campoSearch = payload.campoSearch
-    },
-    clear(state){
-        state.tipoPersona = '',
-        state.campoSearch = ''
+    setSearch(state, payload){ state.search = payload },
+    setContratto(state, payload) { state.contratto = payload },
+    clear(state, payload){ state[payload] = {} },
+    clearAll(state){ 
+        state.search = {}
+        state.anagrafica = {}
+        state.contratto = {}
     }
 }
   
 const actions = {
     setSearch(e, payload) { e.commit('setSearch', payload) },
-    clear(e){ e.commit('clear')}
+    setContratto(e, payload) { e.commit('setContratto', payload) },
+    clear(e, payload){ e.commit('clear', payload) },
+    clearAll(e){ e.commit('clear')}
 }
         
 export default {
