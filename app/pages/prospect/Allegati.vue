@@ -22,7 +22,9 @@
       return {
       }
     },
-    mounted(){},
+    mounted(){
+      
+    },
     methods: {      
       indietro(){
         this.$navigateTo(this.$router.Contratto, {

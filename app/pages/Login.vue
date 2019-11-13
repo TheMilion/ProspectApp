@@ -169,4 +169,16 @@
       margin-bottom: 20;
       margin-top: 10;
     }
+  Label{
+    font-size: 34px;
+    text-align: center;
+  }
+  TextField{
+    width:100%;
+    background-color:white;
+    border-radius:10;
+    padding:10;
+    margin-right:10;
+    margin-left:10;
+  }
 </style>

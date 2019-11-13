@@ -22,7 +22,10 @@
       return {
       }
     },
-    mounted(){},
+   mounted(){
+      let get = this.$store.getters['Prospect/getAnagrafica']
+      console.log(get)
+    },
     methods: {   
       goTo(){
         this.$navigateTo(this.$router.Allegati, {
@@ -69,4 +72,11 @@
       margin-bottom: 20;
       margin-top: 10;
     }
+  TextField{
+    background-color:white;
+    border-radius:10;
+    padding:10;
+    margin-right:10;
+    margin-left:10;
+  }
 </style>

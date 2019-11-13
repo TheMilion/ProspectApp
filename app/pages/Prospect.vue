@@ -22,6 +22,10 @@
             return this.$store.getters['Status/getStatus']
             }
           },
+          mounted(){
+            this.$store.dispatch('Prospect/clear'),
+            this.$store.dispatch('Prospect/setAnagrafica', {})
+          },
     methods: {
         goto(){
         this.$navigateTo(this.$router.Search, {
