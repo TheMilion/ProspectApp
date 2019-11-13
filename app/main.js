@@ -1,6 +1,6 @@
 import Vue from 'nativescript-vue'
-import routes from '~/router'
-import store from "./store/index.js";
+import routes from './router'
+import store from "./store/index.js"
 import axios from "axios"
 const application = require("tns-core-modules/application");
 
@@ -20,7 +20,7 @@ new Vue({
   render (h) {
     return h('frame', [h(routes.Prospect)])
         this.$store.dispatch('Status/checkStatus')
-        if(Object.keys(this.$store.getters['Status/getStatus']).length === 0) {
+        if(this.$store.getters['Status/getStatus']=='') {
           return h('frame', [h(routes.Login)])
           }
         else {

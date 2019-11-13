@@ -586,9 +586,9 @@
           <!-- Domiciliazione Documenti -->
           <Label v-show="contatoreDomiciliazione > 0" style="color: #BC1254"  :text="'Errori: ('+contatoreDomiciliazione+'/4)'"></Label>
           <WrapLayout orientation="horizontal" width="100%" height="70" backgroundColor="lightgray">
-            <Button class="my-buttonAnagrafica" :isEnabled ="btnDomiciliazioneEnabled" width="92%" height="70" @tap="ToggleDomiciliazioneDoc()" text="Domiciliazione Documenti"></Button>
-            <Button backgroundColor="#BC1254" width="8%" height="70" v-if="btnDomiciliazioneEnabled" @tap="DisableDomiciliazione()" ></Button>
-            <Button backgroundColor="green" width="8%" height="70" v-else @tap="ActiveDomiciliazione()" ></Button>
+            <Button :class="(btnDomiciliazioneEnabled)? 'my-buttonAnagrafica' : 'myButtonDisabled' " :isEnabled ="btnDomiciliazioneEnabled" width="92%" height="70" @tap="ToggleDomiciliazioneDoc()" text="Domiciliazione Documenti"></Button>
+            <Button backgroundColor="green" width="8%" height="70" v-if="btnDomiciliazioneEnabled" @tap="DisableDomiciliazione()" ></Button>
+            <Button backgroundColor="#BC1254" width="8%" height="70" v-else @tap="ActiveDomiciliazione()" ></Button>
           </WrapLayout>
            <FlexboxLayout v-show="DomiciliazioneDocCheck" flexDirection="column" width="100%" height="100%" backgroundColor="lightgray">
             
@@ -701,9 +701,9 @@
         <Label v-show="contatoreFatturaEmail > 0" style="color: #BC1254"  :text="'Errori: ('+contatoreFatturaEmail+'/1)'"></Label>
          
          <WrapLayout orientation="horizontal" width="100%" height="70" backgroundColor="lightgray">
-         <Button class="my-buttonAnagrafica" :isEnabled ="btnFatturaEmail" width="92%" height="70" @tap="ToggleFatturaEmail()" text="Fattura Per Email"></Button>
-         <Button backgroundColor="#BC1254" width="8%" height="70" v-if="btnFatturaEmail" @tap="DisableFattura()" ></Button>
-         <Button backgroundColor="green" width="8%" height="70" v-else @tap="ActiveFattura()" >
+         <Button :class="(btnFatturaEmail)? 'my-buttonAnagrafica' : 'myButtonDisabled' " :isEnabled ="btnFatturaEmail" width="92%" height="70" @tap="ToggleFatturaEmail()" text="Fattura Per Email"></Button>
+         <Button backgroundColor="green" width="8%" height="70" v-if="btnFatturaEmail" @tap="DisableFattura()" ></Button>
+         <Button backgroundColor="#BC1254" width="8%" height="70" v-else @tap="ActiveFattura()" >
          </Button>
          </WrapLayout>
          
@@ -860,8 +860,8 @@
       contatoreFatturaEmail: 0,
       btnDomiciliazioneEnabled: false,      
       btnFatturaEmail: false,
-      AnagraficaCheck : false,
-      AnagraficaCheckGiuridica : false,
+      AnagraficaCheck : true,
+      AnagraficaCheckGiuridica : true,
       RappresentanteCheck: false,
       RecapitiCheck : false,
       ResidenzaCheck: false,
@@ -874,7 +874,6 @@
     },
     mounted(){
       var search = this.$store.getters['Prospect/getSearch']
-      console.log("questo e lo storeee", search)
       this.selectedPerson = search.tipoPersona
       
       if(this.selectedPerson == 'Persona Fisica') {
@@ -887,11 +886,9 @@
           this.formResidenza = {...get.residenza},
           this.formDomiciliazioneDoc = {...get.domiciliazione},
           this.formFatturaEmail = {...get.fatturaEmail}
-        if(Object.keys(this.formDomiciliazioneDoc).length != 0)
-          this.btnDomiciliazioneEnabled = true
-        if(Object.keys(this.formFatturaEmail).length != 0)
-          this.btnFatturaEmail = true
-      }
+          if(Object.keys(this.formDomiciliazioneDoc).length != 0) this.btnDomiciliazioneEnabled = true
+          if(Object.keys(this.formFatturaEmail).length != 0)  this.btnFatturaEmail = true
+        }
       }
       else{
         this.selectedSearch = search.partitaIva
@@ -905,11 +902,9 @@
           this.formResidenza = {...get.residenza},
           this.formDomiciliazioneDoc = {...get.domiciliazione},
           this.formFatturaEmail = {...get.fatturaEmail}
-        if(Object.keys(this.formDomiciliazioneDoc).length != 0)
-          this.btnDomiciliazioneEnabled = true
-        if(Object.keys(this.formFatturaEmail).length != 0)
-          this.btnFatturaEmail = true
-      }
+          if(Object.keys(this.formDomiciliazioneDoc).length != 0) this.btnDomiciliazioneEnabled = true
+          if(Object.keys(this.formFatturaEmail).length != 0) this.btnFatturaEmail = true
+        }
       }
       /*
       if(Object.keys(this.$store.getters['Prospect/getAnagrafica']).length != 0){
@@ -1104,11 +1099,12 @@
             name: 'slideRight',
             duration: 500,
             curve: 'linear'
-            }
-            });
-      },  
+          }
+        });
+      },
       logOut(){
         this.$store.dispatch('Status/setStatus', {})
+        this.$store.dispatch('Prospect/clearAll')
         this.$navigateTo(this.$router.Login , { clearHistory: true });
       }
     },
@@ -1174,4 +1170,16 @@
    margin-right:10;
    margin-left:10;
  }
+  .myButtonDisabled{
+    background-color: #524b4d;
+    color: white;
+    width:75%;
+    font-weight: bold;
+    padding-top: 14;
+    padding-bottom: 14;
+    text-transform: uppercase;
+    letter-spacing: 0.1;
+    margin-bottom: 10;
+    margin-top: 10;
+  }
 </style>

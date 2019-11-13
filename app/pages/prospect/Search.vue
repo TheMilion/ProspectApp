@@ -68,10 +68,10 @@
           }
         });
       },
-      async logOut(){
-        await this.$store.dispatch('Status/setStatus', {})
-        await this.$store.dispatch('Prospect/clear')
-        await this.$navigateTo(this.$router.Login , { clearHistory: true });
+      logOut(){
+        this.$store.dispatch('Status/setStatus', {})
+        this.$store.dispatch('Prospect/clearAll')
+        this.$navigateTo(this.$router.Login , { clearHistory: true });
       },
       onSelected(){
         action('', '', ['Persona Fisica', 'Persona Giuridica'])
@@ -87,6 +87,7 @@
           //Controllo partita iva
           if(!!!this.search.partitaIva.search(/^[0,1][0-9]{15}$/) || !!!this.search.partitaIva.search(/^[0,1][0-9]{10}$/)) return this.nextStep()
           else this.errore.partitaIva = true
+          
         } else {
           
           //Controllo codice fiscale Persona Fisica
