@@ -883,11 +883,17 @@
           let get = this.$store.getters['Prospect/getAnagrafica']
           this.formDatiAnagraficiPersonaFisica = {...get.datiAnagrafici},
           this.formRecapiti = {...get.recapiti},
-          this.formResidenza = {...get.residenza},
-          this.formDomiciliazioneDoc = {...get.domiciliazione},
-          this.formFatturaEmail = {...get.fatturaEmail}
-          if(Object.keys(this.formDomiciliazioneDoc).length != 0) this.btnDomiciliazioneEnabled = true
-          if(Object.keys(this.formFatturaEmail).length != 0)  this.btnFatturaEmail = true
+          this.formResidenza = {...get.residenza}
+          
+          if(!!get.domiciliazione) {
+            this.btnDomiciliazioneEnabled = true
+            this.formDomiciliazioneDoc = {...get.domiciliazione}
+          }
+          if(!!get.formFatturaEmail){
+            this.btnFatturaEmail = true
+            this.formFatturaEmail = {...get.fatturaEmail}
+          }
+          
         }
       }
       else{
@@ -899,11 +905,15 @@
           this.formDatiAnagraficiPersonaGiuridica = {...get.datiAnagrafici},
           this.formRappresentantePersonaGiuridica = {...get.rappresentantelegale},
           this.formRecapiti = {...get.recapiti},
-          this.formResidenza = {...get.residenza},
-          this.formDomiciliazioneDoc = {...get.domiciliazione},
-          this.formFatturaEmail = {...get.fatturaEmail}
-          if(Object.keys(this.formDomiciliazioneDoc).length != 0) this.btnDomiciliazioneEnabled = true
-          if(Object.keys(this.formFatturaEmail).length != 0) this.btnFatturaEmail = true
+          this.formResidenza = {...get.residenza}
+          if(!!get.domiciliazione) {
+            this.btnDomiciliazioneEnabled = true
+            this.formDomiciliazioneDoc = {...get.domiciliazione}
+          }
+          if(!!get.formFatturaEmail){
+            this.btnFatturaEmail = true
+            this.formFatturaEmail = {...get.fatturaEmail}
+          }
         }
       }
       /*
