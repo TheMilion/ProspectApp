@@ -2,12 +2,14 @@ const state = () => ({
     search: {},
     anagrafica: {},
     contratto: {},
+    siti:{}
 })
 
 const getters = {
     getSearch(state) { return { ...state.search } },
-    getAnagrafica(state){ return state.anagrafica },
+    getAnagrafica(state) { return { ...state.anagrafica } },
     getContratto(state) { return { ...state.contratto } } 
+    getSiti(state) { return { ...state.siti } }
 }
 
 const mutations = {

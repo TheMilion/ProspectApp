@@ -5,7 +5,7 @@
       <ActionItem @tap="logOut" style="color:white" text="Logout" ></ActionItem> 
     </ActionBar>
         <StackLayout backgroundColor="lightgray">
-          <Label text="RenderSiti"/>
+          <Label :text="get.sitoListino"/>
         </StackLayout>
   </Page>
 </template>
@@ -14,7 +14,7 @@
     export default {
         methods: {
             indietro(){
-                this.$navigateTo(this.$router.Anagrafica, {
+                this.$navigateTo(this.$router.Contratto, {
                 animated: true,
                 transition: {
                     name: 'slideRight',
@@ -29,6 +29,11 @@
                 this.$navigateTo(this.$router.Login , { clearHistory: true });
             }
         },
+        computed:{
+            get(){
+                return this.$store.getters['Prospect/getContratto']
+            }
+        }
     }
 </script>
 
