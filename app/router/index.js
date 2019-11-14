@@ -5,8 +5,7 @@ import Search from '~/pages/prospect/Search'
 import Allegati from '~/pages/prospect/Allegati'
 import Anagrafica from '~/pages/prospect/Anagrafica'
 import Contratto from '~/pages/prospect/Contratto'
-import ChooseSiti from '~/pages/prospect/ChooseSiti'
-import RenderSiti from '~/pages/prospect/RenderSiti'
+import ContrattoSiti from '~/pages/prospect/ContrattoSiti'
 
 
 const routes = {
@@ -16,8 +15,7 @@ const routes = {
   Allegati,
   Anagrafica,
   Contratto,
-  ChooseSiti,
-  RenderSiti
+  ContrattoSiti
 }
 
 export default routes

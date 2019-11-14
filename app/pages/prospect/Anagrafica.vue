@@ -884,8 +884,7 @@
           this.formDatiAnagraficiPersonaFisica = {...get.datiAnagrafici},
           this.formRecapiti = {...get.recapiti},
           this.formResidenza = {...get.residenza}
-          
-          if(!!get.domiciliazione) {
+         if(!!get.domiciliazione) {
             this.btnDomiciliazioneEnabled = true
             this.formDomiciliazioneDoc = {...get.domiciliazione}
           }
@@ -893,7 +892,6 @@
             this.btnFatturaEmail = true
             this.formFatturaEmail = {...get.fatturaEmail}
           }
-          
         }
       }
       else{
@@ -965,11 +963,8 @@
         this.contatoreDomiciliazione =  0,
         this.contatoreFatturaEmail =  0
 
-
         if(this.selectedPerson == 'Persona Fisica'){
-          console.log("datadinascita" , this.formDatiAnagraficiPersonaFisica.datadinascita)
           if(this.formDatiAnagraficiPersonaFisica.datadinascita == null) this.formDatiAnagraficiPersonaFisica.datadinascita = ''
-          console.log("datadinascitaAfter" , this.formDatiAnagraficiPersonaFisica.datadinascita)
           for(let i in this.formDatiAnagraficiPersonaFisica){
             if(this.formDatiAnagraficiPersonaFisica[i] == ''){
               this.counterError ++
@@ -980,14 +975,11 @@
             }
           }
         }else{
-            
           if(this.formDatiAnagraficiPersonaGiuridica.ragionesociale == ''){
             this.counterError ++
             this.errorformDatiAnagraficiPersonaGiuridica.ragionesociale = 'Errore sul campo ragione Sociale'
             this.contatoreDatiAnagraficiGiuridica ++
           }else this.errorformDatiAnagraficiPersonaGiuridica.ragionesociale = ''
-        //console.log("datarilascio: ",this.formRappresentantePersonaGiuridica.datarilascio)
-        //console.log("dattascadenza: ", this.formRappresentantePersonaGiuridica.datascadenza)
         if(this.formRappresentantePersonaGiuridica.datarilascio == null) this.formRappresentantePersonaGiuridica.datarilascio = ''
         if(this.formRappresentantePersonaGiuridica.datascadenza == null) this.formRappresentantePersonaGiuridica.datascadenza = ''
         for(let i in this.formRappresentantePersonaGiuridica){
