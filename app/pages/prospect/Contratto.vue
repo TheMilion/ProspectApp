@@ -96,8 +96,8 @@
             <Button class="my-buttonSelects" text="Elenco Siti" width="100%" height="70" @tap="selectsElencoSiti=!selectsElencoSiti"/>
             <FlexboxLayout v-if="selectsElencoSiti" flexDirection="column" width="100%" height="100%" backgroundColor="lightgray">
               <Label :text="(Object.keys(siti)) ? '' : 'Devi inserire almeno un sito'"/>
-              <Button :class="(selected.listinoGas) ? 'my-buttonSelects' : 'my-buttonDisabled'" text="Aggiungi Sito Gas" @tap="(selected.listinoGas) ? selected.sitoListino='' : aggiungiSito('Gas')"/>
-              <Button :class="(selected.listinoEnergia) ? 'my-buttonSelects' : 'my-buttonDisabled'" text="Aggiungi Sito Energia" @tap="(selected.listinoEnergia) ? selected.sitoListino='' : aggiungiSito('Energia')"/>
+              <Button :class="(selected.listinoGas) ? 'my-buttonSelects' : 'my-buttonDisabled'" text="Aggiungi Sito Gas" @tap="(selected.listinoGas) ? aggiungiSito('Gas') : selected.sitoListino=''"/>
+              <Button :class="(selected.listinoEnergia) ? 'my-buttonSelects' : 'my-buttonDisabled'" text="Aggiungi Sito Energia" @tap="(selected.listinoEnergia) ? aggiungiSito('Energia') : selected.sitoListino=''"/>
               <StackLayout v-if="siti.lenght">
                 <Label :text="siti"/>
               </StackLayout>
@@ -157,7 +157,7 @@
       siti(){
         return this.$store.getters['Prospect/getSiti']
       }
-    }
+    },
     methods: {   
       nextStep(){
         for(let i in this.serie){
@@ -167,7 +167,7 @@
             return
           }
         }
-        if(this.siti.lenght) this.errore = true
+        if(this.siti.lenght) return this.errore = true
         this.$store.dispatch('Prospect/setContratto', { ...this.selected })
         this.$navigateTo(this.$router.Allegati, {
           animated: true,

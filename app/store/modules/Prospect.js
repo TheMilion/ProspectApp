@@ -8,7 +8,7 @@ const state = () => ({
 const getters = {
     getSearch(state) { return { ...state.search } },
     getAnagrafica(state) { return { ...state.anagrafica } },
-    getContratto(state) { return { ...state.contratto } } 
+    getContratto(state) { return { ...state.contratto } },
     getSiti(state) { return { ...state.siti } }
 }
 
